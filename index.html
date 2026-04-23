@@ -1,2 +1,1076 @@
-<h1>Mijn eerste website</h1>
-<p>Hallo wereld!</p>
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grove Street Familie</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;600;700&family=Barlow+Condensed:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gsf-green: #4ade80;
+            --gsf-green-dark: #16a34a;
+            --gsf-red: #ef4444;
+            --gsf-gold: #fbbf24;
+            --bg: #080a08;
+            --bg2: #0d110d;
+            --bg3: #111811;
+            --surface: #141c14;
+            --border: rgba(74, 222, 128, 0.12);
+            --text: #e8f5e8;
+            --muted: #6b7c6b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Barlow', sans-serif;
+            overflow-x: hidden;
+            cursor: default;
+        }
+
+        /* ─── NOISE OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0.4;
+        }
+
+        /* ─── NAVBAR ─── */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            padding: 0 48px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(8, 10, 8, 0.85);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 22px;
+            letter-spacing: 3px;
+            color: var(--gsf-green);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-logo span {
+            color: var(--text);
+            opacity: 0.5;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--text); }
+
+        .btn-discord {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gsf-green);
+            color: #080a08 !important;
+            padding: 8px 20px;
+            border-radius: 2px;
+            font-weight: 700 !important;
+            font-size: 12px !important;
+            letter-spacing: 1.5px;
+            transition: background 0.2s, transform 0.1s !important;
+        }
+
+        .btn-discord:hover {
+            background: #86efac !important;
+            color: #080a08 !important;
+            transform: translateY(-1px);
+        }
+
+        .btn-discord svg { width: 16px; height: 16px; }
+
+        /* ─── HERO ─── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        /* Grid background */
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(74, 222, 128, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(74, 222, 128, 0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+        }
+
+        /* Green glow */
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(74, 222, 128, 0.06) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid var(--border);
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gsf-green);
+            margin-bottom: 32px;
+            animation: fadeUp 0.6s ease both;
+            position: relative;
+            z-index: 1;
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--gsf-green);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .hero-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(72px, 14vw, 180px);
+            line-height: 0.9;
+            letter-spacing: 4px;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.6s 0.1s ease both;
+        }
+
+        .hero-title .line1 { color: var(--text); display: block; }
+        .hero-title .line2 { 
+            color: var(--gsf-green); 
+            display: block;
+            text-shadow: 0 0 60px rgba(74, 222, 128, 0.3);
+        }
+        .hero-title .line3 { 
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+            display: block;
+            font-size: 0.7em;
+        }
+
+        .hero-sub {
+            font-size: 15px;
+            color: var(--muted);
+            max-width: 480px;
+            line-height: 1.7;
+            margin-top: 24px;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.6s 0.2s ease both;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 16px;
+            margin-top: 40px;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.6s 0.3s ease both;
+        }
+
+        .btn-primary {
+            background: var(--gsf-green);
+            color: #080a08;
+            padding: 14px 32px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            transition: all 0.2s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background: #86efac;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(74, 222, 128, 0.25);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text);
+            padding: 14px 32px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            text-decoration: none;
+            border-radius: 2px;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            border-color: rgba(74, 222, 128, 0.4);
+            color: var(--gsf-green);
+        }
+
+        /* ─── STATS BAR ─── */
+        .stats-bar {
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            padding: 28px 0;
+            overflow: hidden;
+        }
+
+        .stats-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 48px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 0 32px;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat:last-child { border-right: none; }
+
+        .stat-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 48px;
+            color: var(--gsf-green);
+            line-height: 1;
+            text-shadow: 0 0 30px rgba(74, 222, 128, 0.2);
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* ─── SECTIONS ─── */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 100px 48px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            color: var(--gsf-green);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--gsf-green);
+        }
+
+        .section-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(40px, 6vw, 72px);
+            line-height: 1;
+            letter-spacing: 2px;
+        }
+
+        /* ─── FEATURES ─── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2px;
+            margin-top: 60px;
+        }
+
+        .feature-card {
+            background: var(--surface);
+            padding: 40px 32px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            cursor: default;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gsf-green);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover::before { transform: scaleX(1); }
+
+        .feature-card:hover {
+            background: #161e16;
+            border-color: rgba(74, 222, 128, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 32px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .feature-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            color: var(--text);
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+        }
+
+        /* ─── OVER ONS ─── */
+        .about-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            align-items: center;
+            margin-top: 60px;
+        }
+
+        .about-text p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+
+        .about-text p strong {
+            color: var(--gsf-green);
+            font-weight: 600;
+        }
+
+        .about-visual {
+            position: relative;
+        }
+
+        .gsf-emblem {
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 400px;
+            margin: 0 auto;
+            display: block;
+            position: relative;
+        }
+
+        .emblem-ring {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: spin linear infinite;
+        }
+
+        .emblem-ring:nth-child(1) {
+            width: 280px; height: 280px;
+            border-color: rgba(74, 222, 128, 0.15);
+            animation-duration: 20s;
+        }
+
+        .emblem-ring:nth-child(2) {
+            width: 220px; height: 220px;
+            border-color: rgba(74, 222, 128, 0.1);
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+
+        .emblem-ring:nth-child(3) {
+            width: 160px; height: 160px;
+            border-color: rgba(74, 222, 128, 0.2);
+            animation-duration: 10s;
+        }
+
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .emblem-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 80px;
+            color: var(--gsf-green);
+            text-shadow: 0 0 40px rgba(74, 222, 128, 0.4);
+            letter-spacing: 4px;
+            text-align: center;
+            line-height: 0.9;
+        }
+
+        .emblem-center small {
+            display: block;
+            font-size: 16px;
+            letter-spacing: 6px;
+            color: var(--muted);
+        }
+
+        /* ─── ROLLEN ─── */
+        .rollen-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2px;
+            margin-top: 60px;
+        }
+
+        .rol-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.2s;
+        }
+
+        .rol-card:hover {
+            background: #161e16;
+            border-color: rgba(74, 222, 128, 0.2);
+        }
+
+        .rol-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .rol-info { flex: 1; }
+
+        .rol-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .rol-desc {
+            font-size: 13px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .rol-badge {
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 2px;
+        }
+
+        /* ─── DASHBOARD CTA ─── */
+        .dashboard-cta {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gsf-green);
+            padding: 60px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 40px;
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .dashboard-cta::before {
+            content: 'DASHBOARD';
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 80px;
+            color: rgba(74, 222, 128, 0.03);
+            letter-spacing: 8px;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .cta-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 40px;
+            letter-spacing: 2px;
+            line-height: 1;
+        }
+
+        .cta-sub {
+            color: var(--muted);
+            margin-top: 12px;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .cta-features {
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .cta-feat {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .cta-feat::before {
+            content: '✓';
+            color: var(--gsf-green);
+            font-weight: 700;
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 18px;
+            letter-spacing: 3px;
+            color: var(--gsf-green);
+        }
+
+        .footer-text {
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ─── SCROLLBAR ─── */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg); }
+        ::-webkit-scrollbar-thumb { background: var(--gsf-green-dark); border-radius: 2px; }
+
+        /* ─── MODAL ─── */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal {
+            background: var(--bg2);
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--gsf-green);
+            padding: 48px;
+            max-width: 440px;
+            width: 90%;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.open .modal { transform: translateY(0); }
+
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 32px;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .modal-sub {
+            color: var(--muted);
+            font-size: 14px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+
+        .modal-btn {
+            width: 100%;
+            background: #5865F2;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-radius: 2px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .modal-btn:hover {
+            background: #4752c4;
+            transform: translateY(-1px);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .modal-close:hover { color: var(--text); }
+
+        .modal { position: relative; }
+
+        .modal-note {
+            font-size: 11px;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 16px;
+            line-height: 1.6;
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 768px) {
+            nav { padding: 0 20px; }
+            .nav-links { display: none; }
+            section { padding: 60px 20px; }
+            .stats-inner { grid-template-columns: repeat(2, 1fr); gap: 1px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .about-layout { grid-template-columns: 1fr; }
+            .rollen-grid { grid-template-columns: 1fr; }
+            .dashboard-cta { grid-template-columns: 1fr; padding: 32px; }
+            footer { flex-direction: column; gap: 16px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+    <div class="nav-logo">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        </svg>
+        GSF <span>|</span> GROVE STREET
+    </div>
+    <ul class="nav-links">
+        <li><a href="#over">Over Ons</a></li>
+        <li><a href="#rollen">Rollen</a></li>
+        <li><a href="#dashboard">Dashboard</a></li>
+        <li><a href="#" class="btn-discord" onclick="openLogin(event)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.013.043.031.057a19.9 19.9 0 0 0 5.993 3.03.077.077 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+            Inloggen
+        </a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-badge">
+        <div class="badge-dot"></div>
+        FiveM Roleplay Gang — NL/BE
+    </div>
+    <h1 class="hero-title">
+        <span class="line1">GROVE</span>
+        <span class="line2">STREET</span>
+        <span class="line3">FAMILIE</span>
+    </h1>
+    <p class="hero-sub">
+        De meest georganiseerde en serieuze gang van de server. 
+        Loyaliteit, respect en broederschap — dat is wie wij zijn.
+    </p>
+    <div class="hero-actions">
+        <a href="https://discord.gg/jouw-invite" class="btn-primary">Join de Discord</a>
+        <a href="#over" class="btn-secondary">Meer Info</a>
+    </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+    <div class="stats-inner">
+        <div class="stat">
+            <div class="stat-num" id="stat-members">—</div>
+            <div class="stat-label">Actieve Leden</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">7</div>
+            <div class="stat-label">Gang Level</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">1</div>
+            <div class="stat-label">Officiële Gang</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label">Actief</div>
+        </div>
+    </div>
+</div>
+
+<!-- OVER ONS -->
+<section id="over">
+    <div class="section-label">Over Ons</div>
+    <h2 class="section-title reveal">WIE ZIJN<br><span style="color: var(--gsf-green)">WIJ?</span></h2>
+    <div class="about-layout">
+        <div class="about-text reveal">
+            <p>
+                Grove Street Familie is <strong>de enige officiële gang</strong> op de server. 
+                Wij zijn geen random straatbende — wij zijn een hechte, georganiseerde 
+                familie met structuur, rangen en verantwoordelijkheden.
+            </p>
+            <p>
+                Elk lid is zorgvuldig geselecteerd via een <strong>sollicitatieproces</strong>. 
+                Wij geloven in kwaliteit boven kwantiteit. Loyaliteit is onze grootste waarde.
+            </p>
+            <p>
+                Met een eigen <strong>porto-systeem, kantoren, gang pot en promotie systeem</strong> 
+                zijn wij de meest uitgebreide en serieuze gang-ervaring die je op de server kunt hebben.
+            </p>
+            <div style="display: flex; gap: 16px; margin-top: 32px; flex-wrap: wrap;">
+                <div style="background: var(--surface); border: 1px solid var(--border); padding: 16px 24px; border-left: 2px solid var(--gsf-green);">
+                    <div style="font-family: 'Bebas Neue'; font-size: 28px; color: var(--gsf-green);">Level 7</div>
+                    <div style="font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-top: 2px;">GANG LEVEL</div>
+                </div>
+                <div style="background: var(--surface); border: 1px solid var(--border); padding: 16px 24px; border-left: 2px solid var(--gsf-gold);">
+                    <div style="font-family: 'Bebas Neue'; font-size: 28px; color: var(--gsf-gold);">Enige</div>
+                    <div style="font-size: 12px; color: var(--muted); letter-spacing: 1px; margin-top: 2px;">OFFICIEEL</div>
+                </div>
+            </div>
+        </div>
+        <div class="about-visual reveal">
+            <div class="gsf-emblem" style="height: 360px; position: relative;">
+                <div class="emblem-ring"></div>
+                <div class="emblem-ring"></div>
+                <div class="emblem-ring"></div>
+                <div class="emblem-center">
+                    GSF
+                    <small>GROVE ST</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<div style="background: var(--bg2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <section style="padding-top: 80px; padding-bottom: 80px;">
+        <div class="section-label">Wat wij bieden</div>
+        <h2 class="section-title reveal">GANG<br><span style="color: var(--gsf-green)">FEATURES</span></h2>
+        <div class="features-grid reveal">
+            <div class="feature-card">
+                <span class="feature-icon">📻</span>
+                <div class="feature-title">Porto Systeem</div>
+                <p class="feature-desc">Eigen porto frequenties die regelmatig geswitcht worden. Altijd verplicht in porto als je ingame bent.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💼</span>
+                <div class="feature-title">Kantoren</div>
+                <p class="feature-desc">Kader leden hebben een eigen privé voice kanaal — je kantoor. Jij bepaalt wie er toegang toe heeft.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🏆</span>
+                <div class="feature-title">Promotie Systeem</div>
+                <p class="feature-desc">Duidelijke rangstructuur met promotie dagen. Werk jezelf op van Aspirant naar het hoogste kader.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">💰</span>
+                <div class="feature-title">Gang Pot</div>
+                <p class="feature-desc">Gezamenlijke pot met wapens en items die elke promotiedag uitgedeeld worden aan aanwezige leden.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">🎫</span>
+                <div class="feature-title">Ticket Systeem</div>
+                <p class="feature-desc">Professioneel support systeem voor klachten, vragen, ally aanvragen en sollicitaties.</p>
+            </div>
+            <div class="feature-card">
+                <span class="feature-icon">📊</span>
+                <div class="feature-title">Dashboard</div>
+                <p class="feature-desc">Exclusief member dashboard met ticket transcripts, ledenlijst, gang pot overzicht en meer.</p>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- ROLLEN -->
+<section id="rollen">
+    <div class="section-label">Structuur</div>
+    <h2 class="section-title reveal">GANG<br><span style="color: var(--gsf-green)">RANGEN</span></h2>
+    <div class="rollen-grid reveal">
+        <div class="rol-card">
+            <div class="rol-dot" style="background: #fbbf24;"></div>
+            <div class="rol-info">
+                <div class="rol-name">Leider</div>
+                <div class="rol-desc">Hoogste rang — leidt de gehele gang</div>
+            </div>
+            <div class="rol-badge" style="background: rgba(251,191,36,0.1); color: #fbbf24;">Top</div>
+        </div>
+        <div class="rol-card">
+            <div class="rol-dot" style="background: #f97316;"></div>
+            <div class="rol-info">
+                <div class="rol-name">Onderbaas</div>
+                <div class="rol-desc">Rechterhand van de leider</div>
+            </div>
+            <div class="rol-badge" style="background: rgba(249,115,22,0.1); color: #f97316;">Kader</div>
+        </div>
+        <div class="rol-card">
+            <div class="rol-dot" style="background: #ef4444;"></div>
+            <div class="rol-info">
+                <div class="rol-name">Kader</div>
+                <div class="rol-desc">Vertrouwde leden met extra verantwoordelijkheden</div>
+            </div>
+            <div class="rol-badge" style="background: rgba(239,68,68,0.1); color: #ef4444;">Kader</div>
+        </div>
+        <div class="rol-card">
+            <div class="rol-dot" style="background: #4ade80;"></div>
+            <div class="rol-info">
+                <div class="rol-name">Gang Lid</div>
+                <div class="rol-desc">Volledig lid van Grove Street Familie</div>
+            </div>
+            <div class="rol-badge" style="background: rgba(74,222,128,0.1); color: #4ade80;">Lid</div>
+        </div>
+        <div class="rol-card">
+            <div class="rol-dot" style="background: #60a5fa;"></div>
+            <div class="rol-info">
+                <div class="rol-name">Hangaround</div>
+                <div class="rol-desc">Proefperiode — bewijst zichzelf</div>
+            </div>
+            <div class="rol-badge" style="background: rgba(96,165,250,0.1); color: #60a5fa;">Proef</div>
+        </div>
+        <div class="rol-card">
+            <div class="rol-dot" style="background: var(--muted);"></div>
+            <div class="rol-info">
+                <div class="rol-name">Aspirant</div>
+                <div class="rol-desc">Sollicitant die in overweging is</div>
+            </div>
+            <div class="rol-badge" style="background: rgba(107,124,107,0.15); color: var(--muted);">Nieuw</div>
+        </div>
+    </div>
+</section>
+
+<!-- DASHBOARD CTA -->
+<section id="dashboard" style="padding-top: 0;">
+    <div class="dashboard-cta reveal">
+        <div>
+            <div class="section-label" style="margin-bottom: 12px;">Exclusief voor leden</div>
+            <div class="cta-title">MEMBER<br>DASHBOARD</div>
+            <p class="cta-sub">Log in met je Discord account en krijg toegang tot het exclusieve dashboard. Wat je kan zien hangt af van je rang in de server.</p>
+            <div class="cta-features">
+                <span class="cta-feat">Ticket Transcripts</span>
+                <span class="cta-feat">Gang Pot Overzicht</span>
+                <span class="cta-feat">Ledenlijst</span>
+                <span class="cta-feat">Afwezigheid</span>
+            </div>
+        </div>
+        <div>
+            <button class="btn-primary" onclick="openLogin(event)" style="white-space: nowrap; display: flex; align-items: center; gap: 10px;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.013.043.031.057a19.9 19.9 0 0 0 5.993 3.03.077.077 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+                Login met Discord
+            </button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-logo">Grove Street Familie</div>
+    <div class="footer-text">© 2025 Grove Street Familie — FiveM Roleplay</div>
+    <div class="footer-text" style="display: flex; gap: 24px;">
+        <a href="https://discord.gg/jouw-invite" style="color: var(--muted); text-decoration: none; font-size: 12px; letter-spacing: 1px; transition: color 0.2s;" onmouseover="this.style.color='var(--gsf-green)'" onmouseout="this.style.color='var(--muted)'">DISCORD</a>
+    </div>
+</footer>
+
+<!-- LOGIN MODAL -->
+<div class="modal-overlay" id="loginModal" onclick="closeLoginOutside(event)">
+    <div class="modal">
+        <button class="modal-close" onclick="closeLogin()">×</button>
+        <div class="modal-title">INLOGGEN</div>
+        <p class="modal-sub">Log in met je Discord account om toegang te krijgen tot het member dashboard.</p>
+        <button class="modal-btn" onclick="discordLogin()">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.013.043.031.057a19.9 19.9 0 0 0 5.993 3.03.077.077 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+            Doorgaan met Discord
+        </button>
+        <p class="modal-note">Alleen leden van de Grove Street Familie Discord server hebben toegang tot het dashboard.</p>
+    </div>
+</div>
+
+<script>
+    // Modal
+    function openLogin(e) {
+        if (e) e.preventDefault();
+        document.getElementById('loginModal').classList.add('open');
+    }
+
+    function closeLogin() {
+        document.getElementById('loginModal').classList.remove('open');
+    }
+
+    function closeLoginOutside(e) {
+        if (e.target === document.getElementById('loginModal')) closeLogin();
+    }
+
+    function discordLogin() {
+        // Hier komt later de Discord OAuth2 redirect URL
+        // window.location.href = '/api/auth/discord';
+        alert('Discord OAuth2 wordt later ingesteld. Zie de readme voor de setup.');
+    }
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Animated member count
+    function animateCount(el, target, duration = 1500) {
+        let start = 0;
+        const step = target / (duration / 16);
+        const timer = setInterval(() => {
+            start = Math.min(start + step, target);
+            el.textContent = Math.floor(start) + '+';
+            if (start >= target) clearInterval(timer);
+        }, 16);
+    }
+
+    // Simuleer member count (later via Supabase/API)
+    setTimeout(() => {
+        animateCount(document.getElementById('stat-members'), 25);
+    }, 500);
+
+    // Keyboard close
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLogin();
+    });
+</script>
+
+</body>
+</html>
