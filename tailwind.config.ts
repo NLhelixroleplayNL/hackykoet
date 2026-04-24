@@ -14,6 +14,12 @@ const config: Config = {
           hover: "#4752C4",
           dark: "#23272A",
         },
+        gsf: {
+          DEFAULT: "#22c55e",
+          dark: "#16a34a",
+          light: "#4ade80",
+          glow: "rgba(34,197,94,0.4)",
+        },
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",
