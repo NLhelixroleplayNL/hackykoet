@@ -1,9 +1,17 @@
 "use client"
+
 import { signOut } from "next-auth/react"
 
-export default function SignOutButton({ className }: { className?: string }) {
+interface SignOutButtonProps {
+  className?: string
+}
+
+export default function SignOutButton({ className }: SignOutButtonProps) {
   return (
-    <button onClick={() => signOut({ callbackUrl: "/" })} className={className}>
+    <button
+      onClick={() => signOut({ callbackUrl: "/" })}
+      className={className ?? "btn-ghost"}
+    >
       Sign out
     </button>
   )
