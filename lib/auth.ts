@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
 
+// Shape of the raw profile returned by Discord's API
 interface DiscordProfile {
   id: string
   username: string
@@ -8,6 +9,11 @@ interface DiscordProfile {
   global_name?: string | null
   avatar?: string | null
   email?: string | null
+  verified?: boolean
+  locale?: string
+  flags?: number
+  premium_type?: number
+  public_flags?: number
 }
 
 function resolveAvatarUrl(profile: DiscordProfile): string {
@@ -15,9 +21,10 @@ function resolveAvatarUrl(profile: DiscordProfile): string {
     const ext = profile.avatar.startsWith("a_") ? "gif" : "png"
     return `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${ext}`
   }
+  // Discord's new username system uses discriminator "0"; fall back to default avatars
   const index =
     profile.discriminator === "0"
-      ? Number(parseInt(profile.id) % 6)
+      ? Number(BigInt(profile.id) >> 22n) % 6
       : parseInt(profile.discriminator) % 5
   return `https://cdn.discordapp.com/embed/avatars/${index}.png`
 }
@@ -29,16 +36,21 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
       authorization: {
         params: {
+          // "identify" gives id/username/avatar; "email" gives the email address
           scope: "identify email",
         },
       },
     }),
   ],
+
   session: {
     strategy: "jwt",
+    // Sessions expire after 30 days; idle sessions are refreshed on each request
     maxAge: 30 * 24 * 60 * 60,
   },
+
   callbacks: {
+    // Enrich the JWT with Discord-specific fields on first sign-in
     async jwt({ token, account, profile }) {
       if (account && profile) {
         const p = profile as DiscordProfile
@@ -49,6 +61,8 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
+
+    // Expose the enriched JWT fields on the session object
     async session({ session, token }) {
       if (token) {
         session.user.id = token.sub!
@@ -60,7 +74,9 @@ export const authOptions: NextAuthOptions = {
       return session
     },
   },
+
   pages: {
+    // Redirect unauthenticated users to the landing page, not the default sign-in page
     signIn: "/",
     error: "/",
   },
