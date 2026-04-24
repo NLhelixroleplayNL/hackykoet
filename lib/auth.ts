@@ -8,11 +8,6 @@ interface DiscordProfile {
   global_name?: string | null
   avatar?: string | null
   email?: string | null
-  verified?: boolean
-  locale?: string
-  flags?: number
-  premium_type?: number
-  public_flags?: number
 }
 
 function resolveAvatarUrl(profile: DiscordProfile): string {
@@ -39,12 +34,10 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
-
   session: {
     strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
   },
-
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account && profile) {
@@ -56,7 +49,6 @@ export const authOptions: NextAuthOptions = {
       }
       return token
     },
-
     async session({ session, token }) {
       if (token) {
         session.user.id = token.sub!
@@ -68,7 +60,6 @@ export const authOptions: NextAuthOptions = {
       return session
     },
   },
-
   pages: {
     signIn: "/",
     error: "/",
