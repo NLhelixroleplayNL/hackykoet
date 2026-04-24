@@ -1,83 +1,46 @@
-import { NextAuthOptions } from "next-auth"
+```ts
+import NextAuth from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
 
-// Shape of the raw profile returned by Discord's API
-interface DiscordProfile {
-  id: string
-  username: string
-  discriminator: string
-  global_name?: string | null
-  avatar?: string | null
-  email?: string | null
-  verified?: boolean
-  locale?: string
-  flags?: number
-  premium_type?: number
-  public_flags?: number
-}
-
-function resolveAvatarUrl(profile: DiscordProfile): string {
-  if (profile.avatar) {
-    const ext = profile.avatar.startsWith("a_") ? "gif" : "png"
-    return `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.${ext}`
-  }
-  // Discord's new username system uses discriminator "0"; fall back to default avatars
+function getDefaultAvatar(profile: any) {
   const index =
     profile.discriminator === "0"
-      ? Number(BigInt(profile.id) >> 22n) % 6
+      ? Math.floor(parseInt(profile.id) / 4194304) % 6
       : parseInt(profile.discriminator) % 5
+
   return `https://cdn.discordapp.com/embed/avatars/${index}.png`
 }
 
-export const authOptions: NextAuthOptions = {
+export const authOptions = {
   providers: [
     DiscordProvider({
       clientId: process.env.DISCORD_CLIENT_ID!,
       clientSecret: process.env.DISCORD_CLIENT_SECRET!,
-      authorization: {
-        params: {
-          // "identify" gives id/username/avatar; "email" gives the email address
-          scope: "identify email",
-        },
+      profile(profile) {
+        return {
+          id: profile.id,
+          name: profile.global_name ?? profile.username,
+          email: profile.email,
+          image:
+            profile.avatar
+              ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
+              : getDefaultAvatar(profile),
+        }
       },
     }),
   ],
-
-  session: {
-    strategy: "jwt",
-    // Sessions expire after 30 days; idle sessions are refreshed on each request
-    maxAge: 30 * 24 * 60 * 60,
-  },
-
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    // Enrich the JWT with Discord-specific fields on first sign-in
-    async jwt({ token, account, profile }) {
-      if (account && profile) {
-        const p = profile as DiscordProfile
-        token.discordId = p.id
-        token.username = p.global_name ?? p.username
-        token.discriminator = p.discriminator
-        token.avatar = resolveAvatarUrl(p)
-      }
-      return token
-    },
-
-    // Expose the enriched JWT fields on the session object
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.sub!
-        session.user.discordId = token.discordId as string
-        session.user.username = token.username as string
-        session.user.discriminator = token.discriminator as string
-        session.user.avatar = token.avatar as string
+    async session({ session, token }: any) {
+      if (session.user) {
+        session.user.id = token.sub
       }
       return session
     },
   },
-
-  pages: {
-    // Redirect unauthenticated users to the landing page, not the default sign-in page
-    signIn: "/",
-    error: "/",
-  },
 }
+
+const handler = NextAuth(authOptions)
+
+export { handler as GET, handler as POST }
+```
