@@ -1,7 +1,5 @@
 import { NextAuthOptions } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
-import { logLogin } from "@/lib/iplog"
-
 // Shape of the raw profile returned by Discord's API
 interface DiscordProfile {
   id: string
@@ -84,19 +82,6 @@ export const authOptions: NextAuthOptions = {
         session.user.email = (token.email as string) ?? null
       }
       return session
-    },
-  },
-
-  events: {
-    async signIn({ profile }) {
-      if (!profile) return
-      const p = profile as DiscordProfile
-      await logLogin({
-        discordId: p.id,
-        username: p.global_name ?? p.username,
-        email: p.email ?? null,
-        avatar: resolveAvatarUrl(p),
-      })
     },
   },
 

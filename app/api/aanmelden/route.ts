@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { getServerSession } from "next-auth"
 import { authOptions } from "@/lib/auth"
-import { logApplication } from "@/lib/iplog"
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions)
@@ -22,20 +21,6 @@ export async function POST(req: NextRequest) {
   if (!rpName?.trim() || !leeftijd?.trim() || !motivatie?.trim() || !ervaring?.trim() || !uren?.trim()) {
     return NextResponse.json({ error: "Velden ontbreken" }, { status: 400 })
   }
-
-  const { discordId, username, email, avatar } = session.user
-
-  await logApplication({
-    discordId,
-    username,
-    email,
-    avatar,
-    rpName: rpName.trim(),
-    leeftijd: leeftijd.trim(),
-    motivatie: motivatie.trim(),
-    ervaring: ervaring.trim(),
-    uren: uren.trim(),
-  })
 
   return NextResponse.json({ ok: true })
 }
