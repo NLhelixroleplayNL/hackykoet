@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 import pool from "@/lib/db"
 import { getTreasuryBalance, getRecentTransactions } from "@/lib/queries"
+import { env } from "@/env"
 
 export async function GET() {
   const [balance, transactions] = await Promise.all([
@@ -16,7 +17,7 @@ export async function POST(req: NextRequest) {
   const body = await req.json().catch(() => null)
   if (!body) return NextResponse.json({ error: "Invalid body" }, { status: 400 })
 
-  if (body.secret !== process.env.API_SECRET) {
+  if (body.secret !== env.API_SECRET) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
   }
 

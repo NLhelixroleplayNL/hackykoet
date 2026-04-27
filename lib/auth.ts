@@ -1,5 +1,6 @@
 import { NextAuthOptions } from "next-auth"
 import DiscordProvider from "next-auth/providers/discord"
+import { env } from "@/env"
 // Shape of the raw profile returned by Discord's API
 interface DiscordProfile {
   id: string
@@ -31,8 +32,8 @@ function resolveAvatarUrl(profile: DiscordProfile): string {
 export const authOptions: NextAuthOptions = {
   providers: [
     DiscordProvider({
-      clientId: process.env.DISCORD_CLIENT_ID!,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET!,
+      clientId: env.DISCORD_CLIENT_ID,
+      clientSecret: env.DISCORD_CLIENT_SECRET,
       authorization: {
         params: {
           scope: "identify email",

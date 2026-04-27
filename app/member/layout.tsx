@@ -4,6 +4,8 @@ import { redirect } from "next/navigation"
 import MemberSidebar from "@/components/MemberSidebar"
 
 export const metadata = { title: "Portaal — Grove Street Families" }
+export const dynamic = "force-dynamic"
+export const revalidate = 60
 
 export default async function MemberLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions)

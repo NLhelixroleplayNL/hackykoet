@@ -1,3 +1,5 @@
+import { env } from "@/env"
+
 export const ROLE_HIERARCHY = [
   "Kingpin",
   "Underboss",
@@ -30,12 +32,8 @@ function getDefaultAvatarUrl(userId: string, discriminator: string): string {
 }
 
 export async function fetchGroupedMembers(): Promise<GroupedMembers> {
-  const token = process.env.DISCORD_BOT_TOKEN
-  const guildId = process.env.DISCORD_GUILD_ID
-
-  if (!token || !guildId) {
-    throw new Error("DISCORD_BOT_TOKEN of DISCORD_GUILD_ID ontbreekt in .env.local")
-  }
+  const token = env.DISCORD_BOT_TOKEN
+  const guildId = env.DISCORD_GUILD_ID
 
   const headers = { Authorization: `Bot ${token}` }
 
@@ -107,4 +105,43 @@ export async function fetchGroupedMembers(): Promise<GroupedMembers> {
   }
 
   return Object.fromEntries(Object.entries(grouped).filter(([, m]) => m.length > 0))
+}
+
+export async function fetchAvatarMap(): Promise<Map<string, string>> {
+  const token = env.DISCORD_BOT_TOKEN
+  const guildId = env.DISCORD_GUILD_ID
+  const headers = { Authorization: `Bot ${token}` }
+
+  const res = await fetch(
+    `https://discord.com/api/v10/guilds/${guildId}/members?limit=1000`,
+    { headers, next: { revalidate: 60 } },
+  )
+  if (!res.ok) {
+    console.error(`fetchAvatarMap failed: ${res.status} ${res.statusText}`, await res.text().catch(() => ""))
+    return new Map()
+  }
+
+  const members: Array<{
+    user: { id: string; avatar: string | null; discriminator: string }
+    avatar: string | null
+  }> = await res.json()
+
+  const map = new Map<string, string>()
+  for (const m of members) {
+    let url: string
+    if (m.avatar) {
+      const ext = m.avatar.startsWith("a_") ? "gif" : "png"
+      url = `https://cdn.discordapp.com/guilds/${guildId}/users/${m.user.id}/avatars/${m.avatar}.${ext}`
+    } else if (m.user.avatar) {
+      const ext = m.user.avatar.startsWith("a_") ? "gif" : "png"
+      url = `https://cdn.discordapp.com/avatars/${m.user.id}/${m.user.avatar}.${ext}`
+    } else {
+      const index = m.user.discriminator === "0"
+        ? Number(BigInt(m.user.id) >> 22n) % 6
+        : parseInt(m.user.discriminator) % 5
+      url = `https://cdn.discordapp.com/embed/avatars/${index}.png`
+    }
+    map.set(m.user.id, url)
+  }
+  return map
 }
