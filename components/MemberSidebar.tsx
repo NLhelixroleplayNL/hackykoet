@@ -6,14 +6,22 @@ import { useSession, signOut } from "next-auth/react"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { cn } from "@/lib/utils"
 
+import { MapPinMinusInsideIcon } from "./ui/map-pin-minus-inside"
+import { ArchiveIcon } from "./ui/archive"
+import { RadioIcon } from "./ui/radio"
+import { CircleHelpIcon } from "./ui/circle-help"
+import { AudioLinesIcon } from "./ui/audio-lines"
+import { PenToolIcon } from "./ui/pen-tool"
+import { HandCoinsIcon } from "./ui/hand-coins"
+
 const LINKS = [
-  { href: "/member/regels",      label: "Regels",      icon: "📋" },
-  { href: "/member/outfit",      label: "Outfit",      icon: "👕" },
-  { href: "/member/porto",       label: "Porto",       icon: "📻" },
-  { href: "/member/sancties",    label: "Sancties",    icon: "⚠️" },
-  { href: "/member/porto-namen", label: "Porto Namen", icon: "🎙️" },
-  { href: "/member/auto-kleur",  label: "Auto Kleur",  icon: "🚗" },
-  { href: "/member/gangpot",     label: "Gang Pot",    icon: "💰" },
+  { href: "/member/regels", label: "Regels", icon: MapPinMinusInsideIcon },
+  { href: "/member/outfit", label: "Outfit", icon: ArchiveIcon },       // closest match for appearance/identity
+  { href: "/member/porto", label: "Porto", icon: RadioIcon },
+  { href: "/member/sancties", label: "Sancties", icon: CircleHelpIcon },
+  { href: "/member/porto-namen", label: "Porto Namen", icon: AudioLinesIcon },
+  { href: "/member/auto-kleur", label: "Auto Kleur", icon: PenToolIcon },     // transport fallback
+  { href: "/member/gangpot", label: "Gang Pot", icon: HandCoinsIcon },       // fallback (no money icon available)
 ]
 
 export default function MemberSidebar() {
@@ -44,7 +52,8 @@ export default function MemberSidebar() {
                   : "text-muted-foreground hover:text-foreground hover:bg-accent border border-transparent"
               )}
             >
-              <span className="text-base leading-none">{link.icon}</span>
+              <link.icon size={20} />
+              {/* <span className="text-base leading-none">{link.icon}</span> */}
               {link.label}
             </Link>
           )
