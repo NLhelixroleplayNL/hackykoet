@@ -1,7 +1,9 @@
 "use client"
 
+import { useState } from "react"
 import { useSession, signIn, signOut } from "next-auth/react"
 import Link from "next/link"
+import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
@@ -25,22 +27,23 @@ const MEMBER_LINKS = [
 export default function Navbar() {
   const { data: session, status } = useSession()
   const pathname = usePathname()
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   const links = session ? MEMBER_LINKS : PUBLIC_LINKS
 
   return (
-    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/40">
-      <nav className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between gap-6">
+    <header className="sticky top-0 z-50 border-b border-border/40 bg-background/90 backdrop-blur-xl">
+      <nav className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between gap-8">
 
         <Link
           href="/"
-          className="font-black text-primary text-xl tracking-widest shrink-0 hover:text-primary/80 transition-colors"
-          style={{ textShadow: "0 0 24px rgba(34,197,94,0.5)" }}
+          className="relative flex items-center gap-2.5 shrink-0 transition-opacity hover:opacity-80"
         >
-          GSF
+          <Image src="/logo.png" alt="GSF" width={28} height={28} className="rounded-sm" />
+          <span className="font-display text-base tracking-[0.25em] text-primary">GSF</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1 flex-1">
+        <div className="hidden md:flex items-center gap-0.5 flex-1">
           {links.map(link => {
             const active = pathname === link.href
             return (
@@ -48,9 +51,9 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3 py-1.5 rounded-lg text-xs font-bold tracking-widest uppercase transition-all",
+                  "px-3 py-1.5 rounded-sm text-[13px] font-medium transition-colors",
                   active
-                    ? "bg-primary/10 text-primary"
+                    ? "text-primary bg-primary/10"
                     : "text-muted-foreground hover:text-foreground hover:bg-accent"
                 )}
               >
@@ -60,56 +63,104 @@ export default function Navbar() {
           })}
         </div>
 
-        <div className="flex items-center gap-3 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {status === "loading" ? (
-            <div className="w-8 h-8 rounded-full bg-secondary animate-pulse" />
+            <div className="w-8 h-8 rounded-sm bg-muted animate-pulse" />
           ) : session ? (
             <>
               <Button
                 asChild
                 size="sm"
-                variant={pathname === "/dashboard" ? "default" : "outline"}
+                variant={pathname === "/dashboard" ? "default" : "ghost"}
                 className={cn(
-                  "hidden sm:inline-flex text-xs tracking-widest uppercase",
-                  pathname !== "/dashboard" && "text-primary border-primary/30 hover:bg-primary/10 hover:border-primary/60"
+                  "hidden sm:inline-flex text-[13px] font-medium",
+                  pathname !== "/dashboard" && "text-muted-foreground hover:text-foreground"
                 )}
               >
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
 
+              <div className="hidden sm:block w-px h-4 bg-border/50" />
+
               <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8 ring-2 ring-primary/40">
+                <Avatar className="h-7 w-7 rounded-sm">
                   <AvatarImage src={session.user.avatar} alt={session.user.username} />
-                  <AvatarFallback>{session.user.username[0]?.toUpperCase()}</AvatarFallback>
+                  <AvatarFallback className="rounded-sm text-xs">{session.user.username[0]?.toUpperCase()}</AvatarFallback>
                 </Avatar>
-                <span className="hidden lg:block text-sm text-muted-foreground font-medium">
+                <span className="hidden lg:block text-sm text-muted-foreground">
                   {session.user.username}
                 </span>
               </div>
 
-              <Button
-                variant="ghost"
-                size="sm"
+              <button
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="text-xs text-muted-foreground hover:text-destructive-foreground hover:bg-destructive/20 tracking-wider uppercase"
+                className="text-xs text-muted-foreground/50 hover:text-red-400 transition-colors ml-1"
               >
                 Uit
-              </Button>
+              </button>
             </>
           ) : (
             <Button
-              variant="discord"
               size="sm"
+              className="text-[13px] font-medium"
               onClick={() => signIn("discord", { callbackUrl: "/dashboard" })}
-              className="text-xs tracking-wider uppercase"
             >
-              <DiscordIcon className="w-4 h-4" />
+              <DiscordIcon className="w-3.5 h-3.5 mr-1.5" />
               Login
             </Button>
           )}
+
+          <button
+            onClick={() => setMobileOpen(v => !v)}
+            className="md:hidden flex flex-col justify-center items-center w-8 h-8 rounded-sm hover:bg-accent transition-colors"
+            aria-label="Menu"
+          >
+            <span className={cn("block w-4 h-0.5 bg-foreground transition-all duration-300", mobileOpen && "rotate-45 translate-y-[3px]")} />
+            <span className={cn("block w-4 h-0.5 bg-foreground mt-1 transition-all duration-300", mobileOpen && "-rotate-45 -translate-y-[3px]")} />
+          </button>
         </div>
 
       </nav>
+
+      <div className={cn(
+        "md:hidden overflow-hidden transition-all duration-300 ease-out border-t border-border/40",
+        mobileOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0 border-t-transparent"
+      )}>
+        <div className="px-4 py-3 space-y-0.5">
+          {links.map(link => {
+            const active = pathname === link.href
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={cn(
+                  "block px-3 py-2 rounded-sm text-sm font-medium transition-colors",
+                  active
+                    ? "text-primary bg-primary/10"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                )}
+              >
+                {link.label}
+              </Link>
+            )
+          })}
+          {session && (
+            <Link
+              href="/dashboard"
+              onClick={() => setMobileOpen(false)}
+              className={cn(
+                "block sm:hidden px-3 py-2 rounded-sm text-sm font-medium transition-colors",
+                pathname === "/dashboard"
+                  ? "text-primary bg-primary/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+              )}
+            >
+              Dashboard
+            </Link>
+          )}
+        </div>
+      </div>
     </header>
   )
 }

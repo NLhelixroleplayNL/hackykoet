@@ -51,32 +51,32 @@ export default function RegelsPage() {
       <div className="max-w-3xl mx-auto px-4 py-16">
 
         <div className="flex items-center gap-3 mb-2">
-          <div className="h-px w-12 bg-primary" />
-          <h1 className="text-4xl font-black text-foreground">
+          <div className="h-px w-10 bg-primary" />
+          <h1 className="font-display text-3xl text-foreground">
             Grove Street <span className="text-primary">Regels</span>
           </h1>
         </div>
-        <p className="text-muted-foreground text-sm mb-12 ml-[60px]">
+        <p className="text-muted-foreground text-sm mb-12 ml-[52px]">
           Lees de regels goed door. Onwetendheid is geen excuus.
         </p>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {RULES.map((rule, i) => (
             <Card
               key={i}
               className="group relative hover:border-primary/20 transition-colors"
             >
-              <CardContent className="p-6">
+              <CardContent className="p-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 text-lg">
+                  <div className="w-9 h-9 rounded-md bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0 text-base">
                     {rule.icon}
                   </div>
-                  <div>
-                    <h2 className="text-foreground font-bold text-base mb-2">{rule.title}</h2>
+                  <div className="flex-1 min-w-0">
+                    <h2 className="font-display text-foreground text-[15px] mb-1.5">{rule.title}</h2>
                     <p className="text-muted-foreground text-sm leading-relaxed">{rule.body}</p>
                   </div>
                 </div>
-                <span className="absolute top-4 right-4 text-border font-black text-2xl select-none">
+                <span className="absolute top-4 right-4 text-border font-display text-xl select-none">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </CardContent>
@@ -84,8 +84,8 @@ export default function RegelsPage() {
           ))}
         </div>
 
-        <div className="mt-12 p-6 rounded-xl border border-primary/20 bg-primary/5 text-center">
-          <p className="text-primary font-bold mb-1">Grove Street 4 Life</p>
+        <div className="mt-10 p-5 rounded-lg border border-primary/20 bg-primary/5 text-center">
+          <p className="text-primary font-display mb-1">Grove Street 4 Life</p>
           <p className="text-muted-foreground text-sm">
             Door deel te nemen aan de server ga je akkoord met bovenstaande regels.
           </p>

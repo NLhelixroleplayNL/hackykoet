@@ -22,12 +22,12 @@ export default async function OudLedenPage() {
       <div className="max-w-6xl mx-auto px-4 py-16">
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-px w-12 bg-primary" />
-          <h1 className="text-4xl font-black text-foreground">
+          <div className="h-px w-10 bg-primary" />
+          <h1 className="font-display text-3xl text-foreground">
             Oud <span className="text-primary">Leden</span>
           </h1>
         </div>
-        <p className="text-muted-foreground text-sm mb-12 ml-[60px]">
+        <p className="text-muted-foreground text-sm mb-12 ml-[52px]">
           Voormalige leden van Grove Street Families.
         </p>
 
@@ -36,14 +36,14 @@ export default async function OudLedenPage() {
             <p className="text-muted-foreground">Geen oud-leden gevonden.</p>
           </div>
         ) : (
-          <div className="space-y-14">
+          <div className="space-y-12">
 
             {inactive.length > 0 && (
               <section>
-                <div className="flex items-center gap-4 mb-6">
+                <div className="flex items-center gap-4 mb-5">
                   <Badge className="text-gray-400 border-gray-400/40 bg-gray-400/5">Inactief</Badge>
                   <span className="text-muted-foreground/60 text-xs">{inactive.length} voormalige leden</span>
-                  <div className="flex-1 border-t border-border/30" />
+                  <div className="flex-1 border-t border-border/40" />
                 </div>
                 <MemberGrid members={inactive} fmtDate={fmtDate} />
               </section>
@@ -51,7 +51,7 @@ export default async function OudLedenPage() {
 
             {banned.length > 0 && (
               <section>
-                <div className="flex items-center gap-4 mb-6">
+                <div className="flex items-center gap-4 mb-5">
                   <Badge className="text-red-400 border-red-400/40 bg-red-400/5">Verbannen</Badge>
                   <span className="text-muted-foreground/60 text-xs">{banned.length} leden</span>
                   <div className="flex-1 border-t border-red-400/10" />
@@ -75,7 +75,7 @@ function MemberGrid({
   fmtDate: (d: Date | string) => string
 }) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
       {members.map((member) => {
         const avatar = member.avatar_url ?? "https://cdn.discordapp.com/embed/avatars/0.png"
         const displayName = member.nickname ?? member.username
@@ -85,13 +85,13 @@ function MemberGrid({
               <Image
                 src={avatar}
                 alt={displayName}
-                width={56}
-                height={56}
-                className="rounded-full ring-2 ring-border grayscale"
+                width={48}
+                height={48}
+                className="rounded-md ring-1 ring-border grayscale"
                 unoptimized
               />
               <div className="w-full">
-                <p className="text-foreground font-semibold text-sm leading-tight truncate">{displayName}</p>
+                <p className="text-foreground font-medium text-sm leading-tight truncate">{displayName}</p>
                 <p className="text-muted-foreground/60 text-xs mt-0.5 truncate">@{member.username}</p>
                 <p className="text-muted-foreground/40 text-xs mt-1">{member.gang_rank}</p>
                 <p className="text-muted-foreground/30 text-[10px] mt-0.5">

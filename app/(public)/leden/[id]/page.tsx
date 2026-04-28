@@ -58,17 +58,16 @@ export default async function LidProfielPage({ params }: { params: { id: string 
           <Link href="/leden">← Terug naar ledenlijst</Link>
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
 
-          {/* Profile card */}
           <Card className="flex flex-col items-center text-center gap-4 p-6">
-            <Avatar className="ring-4 ring-primary/30" style={{ height: 96, width: 96 }}>
+            <Avatar className="ring-1 ring-primary/20" style={{ height: 80, width: 80 }}>
               <AvatarImage src={avatar} alt={displayName} />
               <AvatarFallback>{displayName[0]?.toUpperCase()}</AvatarFallback>
             </Avatar>
 
             <div>
-              <h1 className="text-xl font-black text-foreground">{displayName}</h1>
+              <h1 className="text-lg font-display text-foreground">{displayName}</h1>
               <p className="text-muted-foreground text-sm">@{profile.username}</p>
               <Badge className={cn("mt-3", rankStyle)}>
                 {profile.gang_rank}
@@ -82,11 +81,9 @@ export default async function LidProfielPage({ params }: { params: { id: string 
             </div>
           </Card>
 
-          {/* Right column */}
-          <div className="lg:col-span-2 flex flex-col gap-6">
+          <div className="lg:col-span-2 flex flex-col gap-4">
 
-            {/* Clock stats */}
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-3">
               <StatCard label="Totaal uren" value={formatMinutes(profile.total_minutes)} color="text-primary" />
               <StatCard label="Diensten" value={String(profile.session_count)} color="text-blue-400" />
               <StatCard
@@ -98,10 +95,9 @@ export default async function LidProfielPage({ params }: { params: { id: string 
               />
             </div>
 
-            {/* Rang geschiedenis */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Rang Geschiedenis</CardTitle>
+                <CardTitle className="text-sm">Rang Geschiedenis</CardTitle>
               </CardHeader>
               <CardContent>
                 {profile.rank_history.length === 0 ? (
@@ -117,7 +113,7 @@ export default async function LidProfielPage({ params }: { params: { id: string 
                               <span className="text-muted-foreground/50">→</span>
                             </>
                           ) : null}
-                          <span className="text-foreground font-semibold">{rh.new_rank}</span>
+                          <span className="text-foreground font-medium">{rh.new_rank}</span>
                         </div>
                         <span className="text-muted-foreground/60 text-xs shrink-0 ml-4">
                           {fmtDateTime(rh.changed_at)}
@@ -129,10 +125,9 @@ export default async function LidProfielPage({ params }: { params: { id: string 
               </CardContent>
             </Card>
 
-            {/* Recente diensten */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Recente Diensten</CardTitle>
+                <CardTitle className="text-sm">Recente Diensten</CardTitle>
               </CardHeader>
               <CardContent>
                 {profile.recent_sessions.length === 0 ? (
@@ -145,7 +140,7 @@ export default async function LidProfielPage({ params }: { params: { id: string 
                           <p className="text-foreground">{fmtDateTime(s.start_time)}</p>
                           <p className="text-muted-foreground text-xs">→ {fmtDateTime(s.end_time)}</p>
                         </div>
-                        <span className="text-primary font-bold shrink-0 ml-4">
+                        <span className="text-primary font-medium shrink-0 ml-4">
                           {formatMinutes(Number(s.duration_minutes))}
                         </span>
                       </div>
@@ -155,10 +150,9 @@ export default async function LidProfielPage({ params }: { params: { id: string 
               </CardContent>
             </Card>
 
-            {/* Activiteiten */}
             <Card>
               <CardHeader>
-                <CardTitle className="text-base">Activiteiten</CardTitle>
+                <CardTitle className="text-sm">Activiteiten</CardTitle>
               </CardHeader>
               <CardContent>
                 {profile.activities.length === 0 ? (
@@ -181,11 +175,10 @@ export default async function LidProfielPage({ params }: { params: { id: string 
               </CardContent>
             </Card>
 
-            {/* Waarschuwingen */}
             {profile.warnings.length > 0 && (
               <Card className="border-red-400/20">
                 <CardHeader>
-                  <CardTitle className="text-base text-red-400">
+                  <CardTitle className="text-sm text-red-400">
                     Waarschuwingen ({profile.warnings.length})
                   </CardTitle>
                 </CardHeader>
@@ -224,8 +217,8 @@ function StatCard({ label, value, color }: { label: string; value: string; color
   return (
     <Card>
       <CardContent className="p-4 text-center">
-        <p className="text-muted-foreground text-xs uppercase tracking-widest mb-1">{label}</p>
-        <p className={`font-black text-lg ${color}`}>{value}</p>
+        <p className="text-muted-foreground text-[11px] uppercase tracking-wider mb-1">{label}</p>
+        <p className={`font-display text-lg ${color}`}>{value}</p>
       </CardContent>
     </Card>
   )

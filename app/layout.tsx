@@ -1,9 +1,19 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
+import { Inter, JetBrains_Mono } from "next/font/google"
 import AuthSessionProvider from "@/components/AuthSessionProvider"
 
-const inter = Inter({ subsets: ["latin"] })
+import "./globals.css"
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  weight: ["400", "500", "600", "700"],
+})
 
 export const metadata: Metadata = {
   title: "Grove Street Families",
@@ -17,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="dark">
-      <body className={`${inter.className} min-h-screen antialiased`} suppressHydrationWarning>
+      <body className={`${inter.variable} ${jetbrainsMono.variable} font-sans min-h-screen antialiased`} suppressHydrationWarning>
         <AuthSessionProvider>
           {children}
         </AuthSessionProvider>

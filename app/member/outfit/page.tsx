@@ -10,21 +10,21 @@ export default function OutfitPage() {
   return (
     <div className="max-w-3xl mx-auto px-8 py-12">
       <div className="flex items-center gap-3 mb-2">
-        <div className="h-px w-12 bg-primary" />
-        <h1 className="text-4xl font-black text-foreground">
+        <div className="h-px w-10 bg-primary" />
+        <h1 className="font-display text-3xl text-foreground">
           Gang <span className="text-primary">Outfit</span>
         </h1>
       </div>
-      <p className="text-muted-foreground text-sm mb-10 ml-[60px]">
+      <p className="text-muted-foreground text-sm mb-10 ml-[52px]">
         De verplichte outfit voor alle leden van Grove Street Families.
       </p>
 
-      <div className="space-y-6">
+      <div className="space-y-4">
         <Card className="border-primary/20 bg-primary/5">
-          <CardContent className="p-6 flex items-center justify-between gap-4">
+          <CardContent className="p-5 flex items-center justify-between gap-4">
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-widest font-bold mb-1">Outfit Code</p>
-              <p className="text-primary font-black text-3xl tracking-widest font-mono">{OUTFIT_CODE}</p>
+              <p className="text-[11px] text-muted-foreground uppercase tracking-wider font-medium mb-1">Outfit Code</p>
+              <p className="text-primary font-display text-2xl tracking-wider font-mono">{OUTFIT_CODE}</p>
             </div>
             <div className="text-right">
               <p className="text-muted-foreground text-sm">Voer deze code in bij de kleermaker</p>

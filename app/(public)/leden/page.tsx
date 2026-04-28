@@ -56,15 +56,15 @@ export default async function LedenPage() {
     <div className="min-h-screen">
       <div className="max-w-6xl mx-auto px-4 py-16">
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-px w-12 bg-primary" />
-          <h1 className="text-4xl font-black text-foreground">
+          <div className="h-px w-10 bg-primary" />
+          <h1 className="font-display text-3xl text-foreground">
             Leden <span className="text-primary">Lijst</span>
           </h1>
         </div>
-        <p className="text-muted-foreground text-sm mb-2 ml-[60px]">
+        <p className="text-muted-foreground text-sm mb-2 ml-[52px]">
           Alle actieve leden van Grove Street Families, gegroepeerd op rang.
         </p>
-        <p className="text-primary/60 text-xs mb-12 ml-[60px]">
+        <p className="text-primary/60 text-xs mb-12 ml-[52px]">
           {players.length} actieve leden
         </p>
 
@@ -73,23 +73,23 @@ export default async function LedenPage() {
             <p className="text-muted-foreground">Geen leden gevonden.</p>
           </div>
         ) : (
-          <div className="space-y-14">
+          <div className="space-y-12">
             {activeGrades.map((grade) => {
               const members = grouped[grade]
               const label = members[0].gradeLabel
               return (
                 <section key={grade}>
-                  <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center gap-4 mb-5">
                     <Badge className={cn(GRADE_BADGE[grade] ?? GRADE_BADGE[0])}>
                       {label}
                     </Badge>
                     <span className="text-muted-foreground/60 text-xs">
                       {members.length} lid{members.length !== 1 ? "en" : ""}
                     </span>
-                    <div className="flex-1 border-t border-primary/5" />
+                    <div className="flex-1 border-t border-border/40" />
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                     {members.map((player) => {
                       const avatar = avatarMap.get(player.discordId) ?? getDefaultAvatar(player.discordId)
                       return (
@@ -102,13 +102,13 @@ export default async function LedenPage() {
                               <Image
                                 src={avatar}
                                 alt={player.name}
-                                width={56}
-                                height={56}
-                                className="rounded-full ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all"
+                                width={48}
+                                height={48}
+                                className="rounded-md ring-1 ring-border group-hover:ring-primary/40 transition-all"
                                 unoptimized
                               />
                               <div className="w-full">
-                                <p className="text-foreground font-semibold text-sm leading-tight truncate">
+                                <p className="text-foreground font-medium text-sm leading-tight truncate">
                                   {player.name}
                                 </p>
                                 <p className="text-muted-foreground/60 text-xs mt-0.5 truncate">

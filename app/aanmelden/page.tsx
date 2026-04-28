@@ -41,7 +41,7 @@ export default function AanmeldenPage() {
   }
 
   if (status === "loading") {
-    return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 rounded-full bg-secondary animate-pulse" /></div>
+    return <div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 rounded-md bg-muted animate-pulse" /></div>
   }
 
   return (
@@ -49,12 +49,12 @@ export default function AanmeldenPage() {
       <div className="max-w-2xl mx-auto px-4 py-16">
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-px w-12 bg-primary" />
-          <h1 className="text-4xl font-black text-foreground">
+          <div className="h-px w-10 bg-primary" />
+          <h1 className="font-display text-3xl text-foreground">
             Aanmelden <span className="text-primary">GSF</span>
           </h1>
         </div>
-        <p className="text-muted-foreground text-sm mb-10 ml-[60px]">
+        <p className="text-muted-foreground text-sm mb-10 ml-[52px]">
           Vul het formulier in om je aan te melden bij Grove Street Families. Login eerst met Discord zodat we weten wie je bent.
         </p>
 
@@ -62,7 +62,7 @@ export default function AanmeldenPage() {
           <Card className="text-center p-10">
             <CardContent className="p-0 space-y-4">
               <p className="text-muted-foreground">Je moet inloggen met Discord voordat je een sollicitatie kunt indienen.</p>
-              <Button onClick={() => signIn("discord")} className="font-bold">
+              <Button onClick={() => signIn("discord")} className="font-medium">
                 Login met Discord
               </Button>
             </CardContent>
@@ -70,7 +70,7 @@ export default function AanmeldenPage() {
         ) : result === "success" ? (
           <Card className="border-primary/30 bg-primary/5 text-center p-10">
             <CardContent className="p-0 space-y-3">
-              <p className="text-primary text-3xl font-black">Verstuurd!</p>
+              <p className="text-primary text-2xl font-display">Verstuurd!</p>
               <p className="text-muted-foreground text-sm">
                 Je sollicitatie is ontvangen. De leiding zal je binnenkort contacten via Discord.
               </p>
@@ -80,7 +80,7 @@ export default function AanmeldenPage() {
         ) : (
           <Card>
             <CardHeader>
-              <CardTitle className="text-base">
+              <CardTitle className="text-sm">
                 Sollicitatie als{" "}
                 <span className="text-primary font-mono">{session.user.username}</span>
               </CardTitle>
@@ -96,7 +96,7 @@ export default function AanmeldenPage() {
                     required
                     maxLength={64}
                     placeholder="bv. CJ Johnson"
-                    className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
+                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
                   />
                 </Field>
 
@@ -110,7 +110,7 @@ export default function AanmeldenPage() {
                     min={13}
                     max={99}
                     placeholder="bv. 18"
-                    className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
+                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
                   />
                 </Field>
 
@@ -124,7 +124,7 @@ export default function AanmeldenPage() {
                     min={1}
                     max={168}
                     placeholder="bv. 10"
-                    className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
+                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50"
                   />
                 </Field>
 
@@ -137,7 +137,7 @@ export default function AanmeldenPage() {
                     rows={3}
                     maxLength={500}
                     placeholder="Hoelang speel je al FiveM? Welke servers? Eerdere gangs?"
-                    className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 resize-none"
+                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 resize-none"
                   />
                 </Field>
 
@@ -150,7 +150,7 @@ export default function AanmeldenPage() {
                     rows={4}
                     maxLength={800}
                     placeholder="Vertel ons waarom je bij Grove Street Families wilt..."
-                    className="w-full bg-secondary border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 resize-none"
+                    className="w-full bg-secondary border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary/50 resize-none"
                   />
                 </Field>
 
@@ -161,8 +161,7 @@ export default function AanmeldenPage() {
                 <Button
                   type="submit"
                   disabled={loading}
-                  className="w-full font-black tracking-wide"
-                  style={{ boxShadow: "0 0 20px rgba(34,197,94,0.25)" }}
+                  className="w-full font-medium tracking-wide"
                 >
                   {loading ? "Versturen..." : "Stuur Sollicitatie In"}
                 </Button>

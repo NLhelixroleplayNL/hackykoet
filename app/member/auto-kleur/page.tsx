@@ -9,16 +9,16 @@ export default function AutoKleurPage() {
   return (
     <div className="max-w-3xl mx-auto px-8 py-12">
       <div className="flex items-center gap-3 mb-2">
-        <div className="h-px w-12 bg-primary" />
-        <h1 className="text-4xl font-black text-foreground">
+        <div className="h-px w-10 bg-primary" />
+        <h1 className="font-display text-3xl text-foreground">
           Auto <span className="text-primary">Kleur</span>
         </h1>
       </div>
-      <p className="text-muted-foreground text-sm mb-10 ml-[60px]">
+      <p className="text-muted-foreground text-sm mb-10 ml-[52px]">
         Verplichte gang kleur voor voertuigen van Grove Street Families leden.
       </p>
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         <Card className="overflow-hidden">
           <CardContent className="p-0">
             <Image
@@ -32,8 +32,8 @@ export default function AutoKleurPage() {
           </CardContent>
         </Card>
 
-        <div className="p-4 rounded-xl border border-primary/20 bg-primary/5">
-          <p className="text-primary font-semibold text-sm">
+        <div className="p-4 rounded-lg border border-primary/20 bg-primary/5">
+          <p className="text-primary font-medium text-sm">
             🚗 Gebruik altijd de bovenstaande kleur op je gangauto. Afwijkingen worden niet getolereerd.
           </p>
         </div>

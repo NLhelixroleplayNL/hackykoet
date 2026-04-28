@@ -13,67 +13,61 @@ export default async function HomePage() {
   const stats = await getGangStats()
 
   return (
-    <div className="min-h-screen overflow-hidden">
+    <div className="min-h-screen overflow-hidden relative">
 
-      {/* Hero */}
-      <section className="relative max-w-6xl mx-auto px-4 pt-16 pb-24">
-        {/* Glow blobs */}
-        <div
-          className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[500px] rounded-full pointer-events-none"
-          style={{ background: "radial-gradient(ellipse at center, rgba(34,197,94,0.07) 0%, transparent 70%)" }}
-        />
+      <div className="absolute inset-0 grid-bg grid-bg-fade pointer-events-none" />
 
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] pointer-events-none opacity-40"
+        style={{ background: "radial-gradient(ellipse at center, rgba(34,197,94,0.12) 0%, transparent 60%)" }}
+      />
+
+      <section className="relative max-w-5xl mx-auto px-4 pt-24 pb-32">
         <div className="relative flex flex-col items-center text-center gap-10">
 
-          {/* Logo */}
           <div className="relative">
             <div
-              className="absolute inset-0 rounded-full blur-2xl opacity-40"
-              style={{ background: "radial-gradient(circle, rgba(34,197,94,0.5) 0%, transparent 70%)" }}
+              className="absolute inset-0 blur-3xl opacity-25"
+              style={{ background: "radial-gradient(circle, rgba(34,197,94,0.6) 0%, transparent 60%)" }}
             />
             <Image
               src={LOGO}
               alt="Grove Street Families"
-              width={160}
-              height={160}
-              className="relative rounded-full ring-4 ring-primary/30 shadow-2xl"
+              width={120}
+              height={120}
+              className="relative rounded ring-1 ring-primary/20"
               unoptimized
               priority
             />
           </div>
 
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/25 bg-primary/5">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="text-primary text-xs font-bold tracking-widest uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/20 bg-primary/5">
+            <span className="w-1.5 h-1.5 bg-primary animate-pulse" />
+            <span className="text-primary text-[11px] font-mono font-medium tracking-widest uppercase">
               Los Santos — San Andreas
             </span>
           </div>
 
-          {/* Title */}
           <div>
-            <h1 className="text-7xl sm:text-9xl font-black text-foreground leading-none tracking-tighter mb-3">
+            <h1 className="text-7xl sm:text-9xl font-display text-foreground leading-[0.85] tracking-tight ">
               Grove<br />
-              <span className="text-primary" style={{ textShadow: "0 0 80px rgba(34,197,94,0.45)" }}>
-                Street
-              </span>
+              <span className="text-primary">Street</span>
             </h1>
-            <p className="text-muted-foreground text-xl font-semibold tracking-widest uppercase">
-              Families — <span className="text-primary">GSF</span>
+            <p className="text-muted-foreground text-base font-mono tracking-widest uppercase mt-4">
+              Families — <span className="text-primary font-semibold">GSF</span>
             </p>
           </div>
 
-          <p className="text-muted-foreground/70 text-base leading-relaxed max-w-lg">
+          <p className="text-muted-foreground/60 text-sm leading-relaxed max-w-md">
             De sterkste en meest loyale crew van Los Santos.
             Groen vloeit door onze aderen. Grove Street is voor altijd.
           </p>
 
-          {/* CTAs */}
           <div className="flex flex-wrap gap-3 justify-center">
-            <Button asChild size="lg" className="font-black tracking-wide px-8" style={{ boxShadow: "0 0 28px rgba(34,197,94,0.35)" }}>
+            <Button asChild size="lg" className="font-medium tracking-wide">
               <Link href="/leden">Bekijk Leden</Link>
             </Button>
-            <Button asChild size="lg" variant="outline" className="font-bold tracking-wide hover:text-primary hover:border-primary/40">
+            <Button asChild size="lg" variant="outline" className="hover:text-primary hover:border-primary/40">
               <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
                 <DiscordIcon className="w-4 h-4 mr-2" />
                 Join Discord
@@ -81,8 +75,7 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          {/* Live stats row */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-2xl pt-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-2xl pt-6">
             <LiveStat value={stats.memberCount} label="Actieve Leden" glow />
             <LiveStat value={`${stats.totalClockHours}u`} label="Totaal Uren" />
             <LiveStat value={stats.activityCount} label="Activiteiten" />
@@ -92,16 +85,14 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Divider */}
-      <div className="max-w-6xl mx-auto px-4">
+      <div className="relative max-w-5xl mx-auto px-4">
         <div className="border-t border-border/30" />
       </div>
 
-      {/* Info cards */}
-      <section className="max-w-6xl mx-auto px-4 py-24">
-        <div className="flex items-center gap-3 mb-12">
+      <section className="relative max-w-5xl mx-auto px-4 py-28">
+        <div className="flex items-center gap-4 mb-12">
           <div className="h-px w-12 bg-primary" />
-          <h2 className="text-3xl font-black text-foreground tracking-tight">
+          <h2 className="font-display text-3xl text-foreground tracking-tight">
             Over <span className="text-primary">GSF</span>
           </h2>
         </div>
@@ -109,25 +100,25 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[
             {
-              icon: "🤝",
+              tag: "01",
               title: "Loyaliteit",
-              body: "Grove Street Families staan voor loyaliteit boven alles. Eén voor allen, allen voor één. Eens GSF, altijd GSF.",
+              body: "Grove Street Families staan voor loyaliteit boven alles. Een voor allen, allen voor een. Eens GSF, altijd GSF.",
             },
             {
-              icon: "🗺️",
+              tag: "02",
               title: "Territorium",
               body: "Wij domineren Los Santos van Ganton tot Idlewood. Grove Street is ons thuis en wij verdedigen het met alles wat we hebben.",
             },
             {
-              icon: "🛡️",
+              tag: "03",
               title: "Respect",
               body: "Respect wordt verdiend, niet gegeven. Bewijs je waarde aan de familia en stijg op in de rangen van Grove Street.",
             },
           ].map(card => (
-            <Card key={card.title} className="group hover:border-primary/20 transition-all">
+            <Card key={card.title} className="group hover:border-primary/20 transition-colors relative overflow-hidden">
               <CardContent className="p-6">
-                <div className="text-3xl mb-4">{card.icon}</div>
-                <h3 className="text-foreground font-bold text-lg mb-2">{card.title}</h3>
+                <span className="absolute top-4 right-4 font-mono text-xs text-border select-none">{card.tag}</span>
+                <h3 className="font-display text-foreground text-lg mb-2">{card.title}</h3>
                 <p className="text-muted-foreground text-sm leading-relaxed">{card.body}</p>
               </CardContent>
             </Card>
@@ -135,23 +126,22 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="max-w-6xl mx-auto px-4 pb-24">
-        <div className="relative rounded-2xl border border-primary/20 bg-primary/5 p-10 text-center overflow-hidden">
+      <section className="relative max-w-5xl mx-auto px-4 pb-28">
+        <div className="relative border border-primary/20 bg-primary/5 p-12 text-center overflow-hidden">
           <div
             className="absolute inset-0 pointer-events-none"
-            style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.08) 0%, transparent 60%)" }}
+            style={{ background: "radial-gradient(ellipse at 50% 0%, rgba(34,197,94,0.08) 0%, transparent 50%)" }}
           />
-          <p className="text-primary text-xs font-bold tracking-widest uppercase mb-3">Wil je bij ons horen?</p>
-          <h2 className="text-3xl font-black text-foreground mb-4">Join Grove Street Families</h2>
-          <p className="text-muted-foreground mb-8 max-w-sm mx-auto text-sm leading-relaxed">
+          <p className="font-mono text-primary text-[11px] font-medium tracking-widest uppercase mb-3">Wil je bij ons horen?</p>
+          <h2 className="font-display text-3xl text-foreground mb-4">Join Grove Street Families</h2>
+          <p className="text-muted-foreground mb-10 max-w-sm mx-auto text-sm leading-relaxed">
             Lees de regels, join de Discord en bewijs je waarde aan de familia.
           </p>
           <div className="flex gap-3 justify-center flex-wrap">
-            <Button asChild className="font-black tracking-wide" style={{ boxShadow: "0 0 20px rgba(34,197,94,0.25)" }}>
+            <Button asChild className="font-medium tracking-wide">
               <Link href="/regels">Lees de Regels</Link>
             </Button>
-            <Button asChild variant="outline" className="font-bold hover:text-primary hover:border-primary/40">
+            <Button asChild variant="outline" className="hover:text-primary hover:border-primary/40">
               <a href={DISCORD_INVITE} target="_blank" rel="noopener noreferrer">
                 <DiscordIcon className="w-4 h-4 mr-2" />
                 Join Discord
@@ -161,11 +151,10 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-border/30 py-8">
-        <p className="text-center text-muted-foreground/40 text-sm tracking-wider">
-          © Grove Street Families —{" "}
-          <span className="text-primary/60">Grove Street 4 Life</span>
+      <footer className="relative border-t border-border/30 py-8">
+        <p className="text-center text-muted-foreground/30 text-xs font-mono tracking-wider">
+          &copy; Grove Street Families —{" "}
+          <span className="text-primary/40">Grove Street 4 Life</span>
         </p>
       </footer>
 
@@ -177,13 +166,10 @@ function LiveStat({ value, label, glow = false }: { value: string | number; labe
   return (
     <Card className={glow ? "border-primary/30 bg-primary/5" : ""}>
       <CardContent className="p-4 text-center">
-        <p
-          className={`font-black text-2xl ${glow ? "text-primary" : "text-foreground"}`}
-          style={glow ? { textShadow: "0 0 20px rgba(34,197,94,0.4)" } : undefined}
-        >
+        <p className={`stat-mono text-2xl font-semibold ${glow ? "text-primary" : "text-foreground"}`}>
           {value}
         </p>
-        <p className="text-muted-foreground text-xs mt-1 uppercase tracking-wide">{label}</p>
+        <p className="text-muted-foreground text-[10px] mt-1.5 font-mono uppercase tracking-widest">{label}</p>
       </CardContent>
     </Card>
   )

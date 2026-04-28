@@ -38,19 +38,19 @@ export default async function LeaderboardPage() {
       <div className="max-w-3xl mx-auto px-4 py-16">
 
         <div className="flex items-center gap-3 mb-4">
-          <div className="h-px w-12 bg-primary" />
-          <h1 className="text-4xl font-black text-foreground">
+          <div className="h-px w-10 bg-primary" />
+          <h1 className="font-display text-3xl text-foreground">
             Clock <span className="text-primary">Leaderboard</span>
           </h1>
         </div>
-        <p className="text-muted-foreground text-sm mb-12 ml-[60px]">
+        <p className="text-muted-foreground text-sm mb-12 ml-[52px]">
           Top 10 leden met de meeste dienst uren.
         </p>
 
         {board.length === 0 ? (
           <p className="text-muted-foreground text-center py-20">Nog geen clock data beschikbaar.</p>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {board.map((member, i) => {
               const pos = i + 1
               const displayName = (member.nickname as string) ?? (member.username as string)
@@ -62,39 +62,35 @@ export default async function LeaderboardPage() {
                 <Link key={member.discord_id as string} href={`/leden/${member.discord_id}`}>
                   <Card
                     className={cn(
-                      "flex items-center gap-4 p-4 transition-all group cursor-pointer hover:scale-[1.01]",
+                      "flex items-center gap-4 p-4 transition-all group cursor-pointer",
                       isTop3
-                        ? "border-primary/30 bg-primary/5 hover:border-primary/60"
-                        : "hover:border-border/80"
+                        ? "border-primary/30 bg-primary/5 hover:border-primary/50"
+                        : "hover:border-border"
                     )}
                   >
                     <CardContent className="p-0 flex items-center gap-4 w-full">
-                      {/* Position */}
                       <div className="w-10 text-center flex-shrink-0">
                         {MEDAL[pos] ? (
-                          <span className="text-2xl">{MEDAL[pos]}</span>
+                          <span className="text-xl">{MEDAL[pos]}</span>
                         ) : (
-                          <span className="text-muted-foreground font-bold text-lg">#{pos}</span>
+                          <span className="text-muted-foreground font-medium text-base">#{pos}</span>
                         )}
                       </div>
 
-                      {/* Avatar */}
-                      <Avatar className="h-11 w-11 ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all flex-shrink-0">
+                      <Avatar className="h-10 w-10 ring-1 ring-border group-hover:ring-primary/40 transition-all flex-shrink-0">
                         <AvatarImage src={avatar} alt={displayName} />
                         <AvatarFallback>{displayName[0]?.toUpperCase()}</AvatarFallback>
                       </Avatar>
 
-                      {/* Info */}
                       <div className="flex-1 min-w-0">
-                        <p className="text-foreground font-bold truncate">{displayName}</p>
-                        <p className={`text-xs font-semibold ${RANK_COLOR[member.gang_rank as string] ?? "text-muted-foreground"}`}>
+                        <p className="text-foreground font-medium truncate">{displayName}</p>
+                        <p className={`text-xs ${RANK_COLOR[member.gang_rank as string] ?? "text-muted-foreground"}`}>
                           {member.gang_rank as string}
                         </p>
                       </div>
 
-                      {/* Hours */}
                       <div className="text-right flex-shrink-0">
-                        <p className={`font-black text-lg ${isTop3 ? "text-primary" : "text-foreground"}`}>
+                        <p className={`font-display text-lg ${isTop3 ? "text-primary" : "text-foreground"}`}>
                           {formatMinutes(minutes)}
                         </p>
                         <p className="text-muted-foreground/60 text-xs">{Number(member.session_count)} diensten</p>
