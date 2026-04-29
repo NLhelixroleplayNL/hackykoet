@@ -84,7 +84,7 @@ export default async function LedenPage() {
                       {label}
                     </Badge>
                     <span className="text-muted-foreground/60 text-xs">
-                      {members.length} lid{members.length !== 1 ? "en" : ""}
+                      {members.length} {members.length !== 1 ? "Leden" : "Lid"}
                     </span>
                     <div className="flex-1 border-t border-border/40" />
                   </div>
