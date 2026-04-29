@@ -44,7 +44,7 @@ export default async function HomePage() {
           <div className="inline-flex items-center gap-2 px-3 py-1 border border-primary/20 bg-primary/5">
             <span className="w-1.5 h-1.5 bg-primary animate-pulse" />
             <span className="text-primary text-[11px] font-mono font-medium tracking-widest uppercase">
-              Los Santos — San Andreas
+              GSF - Vertex Roleplay
             </span>
           </div>
 
@@ -59,8 +59,7 @@ export default async function HomePage() {
           </div>
 
           <p className="text-muted-foreground/60 text-sm leading-relaxed max-w-md">
-            De sterkste en meest loyale crew van Los Santos.
-            Groen vloeit door onze aderen. Grove Street is voor altijd.
+            GSF, staat altijd op #1, enigste officiele organisatie + level 5!
           </p>
 
           <div className="flex flex-wrap gap-3 justify-center">
@@ -75,11 +74,8 @@ export default async function HomePage() {
             </Button>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 w-full max-w-2xl pt-6">
+          <div className="pt-6">
             <LiveStat value={stats.memberCount} label="Actieve Leden" glow />
-            <LiveStat value={`${stats.totalClockHours}u`} label="Totaal Uren" />
-            <LiveStat value={stats.activityCount} label="Activiteiten" />
-            <LiveStat value={stats.warningCount} label="Waarschuwingen" />
           </div>
 
         </div>
@@ -93,7 +89,7 @@ export default async function HomePage() {
         <div className="flex items-center gap-4 mb-12">
           <div className="h-px w-12 bg-primary" />
           <h2 className="font-display text-3xl text-foreground tracking-tight">
-            Over <span className="text-primary">GSF</span>
+            Quote&apos;s van <span className="text-primary">GSF</span>
           </h2>
         </div>
 
@@ -101,25 +97,25 @@ export default async function HomePage() {
           {[
             {
               tag: "01",
-              title: "Loyaliteit",
-              body: "Grove Street Families staan voor loyaliteit boven alles. Een voor allen, allen voor een. Eens GSF, altijd GSF.",
+              quote: "Het zijn altijd de mensen die koran lezen die t verkankeren voor de andere",
+              author: "Dimi",
             },
             {
               tag: "02",
-              title: "Territorium",
-              body: "Wij domineren Los Santos van Ganton tot Idlewood. Grove Street is ons thuis en wij verdedigen het met alles wat we hebben.",
+              quote: "Hand op de krant, moslims onder het kanker zand",
+              author: "Hacky Koet",
             },
             {
               tag: "03",
-              title: "Respect",
-              body: "Respect wordt verdiend, niet gegeven. Bewijs je waarde aan de familia en stijg op in de rangen van Grove Street.",
+              quote: "Als jij er moeite mee heb, moet je op je kameel lekker wegrijden",
+              author: "Uncle Kush",
             },
           ].map(card => (
-            <Card key={card.title} className="group hover:border-primary/20 transition-colors relative overflow-hidden">
-              <CardContent className="p-6">
+            <Card key={card.author} className="group hover:border-primary/20 transition-colors relative overflow-hidden">
+              <CardContent className="p-6 flex flex-col gap-4">
                 <span className="absolute top-4 right-4 font-mono text-xs text-border select-none">{card.tag}</span>
-                <h3 className="font-display text-foreground text-lg mb-2">{card.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{card.body}</p>
+                <p className="text-muted-foreground text-sm leading-relaxed italic">&ldquo;{card.quote}&rdquo;</p>
+                <p className="text-primary font-mono text-xs font-semibold">— {card.author}</p>
               </CardContent>
             </Card>
           ))}
