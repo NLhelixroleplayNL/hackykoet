@@ -6,7 +6,7 @@ import { Card, CardContent } from "@/components/ui/card"
 
 export const revalidate = 60
 
-const LOGO = "https://cdn.discordapp.com/attachments/1484289535972999209/1490862432992628766/IMG_5849.png?ex=69f29a56&is=69f148d6&hm=938c610e58ebb9e44a852aa93afb8d72e5b9ea705d76cfdc985ebf1154946ab1&"
+const LOGO = "/logo.png"
 const DISCORD_INVITE = "https://discord.gg/he7VUYBBZ4"
 
 export default async function HomePage() {
